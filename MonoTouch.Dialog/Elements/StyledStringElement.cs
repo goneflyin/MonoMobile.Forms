@@ -36,6 +36,7 @@ namespace MonoTouch.Dialog
 		public UIColor BackgroundColor;
 		public UILineBreakMode LineBreakMode = UILineBreakMode.WordWrap;
 		public int Lines = 1;
+        public UITableViewCellSelectionStyle CellSelectionStyle = UITableViewCellSelectionStyle.Blue;
 		public UITableViewCellAccessory Accessory = UITableViewCellAccessory.None;
 		
 		public override UITableViewCell GetCell (UITableView tv)
@@ -43,7 +44,7 @@ namespace MonoTouch.Dialog
 			var cell = tv.DequeueReusableCell (skey);
 			if (cell == null){
 				cell = new UITableViewCell (Value == null ? UITableViewCellStyle.Default : UITableViewCellStyle.Value1, skey);
-				cell.SelectionStyle = UITableViewCellSelectionStyle.Blue;
+				cell.SelectionStyle = CellSelectionStyle;
 			}
 			cell.Accessory = Accessory;
 			cell.BackgroundColor = BackgroundColor == null ? UIColor.White : BackgroundColor;
