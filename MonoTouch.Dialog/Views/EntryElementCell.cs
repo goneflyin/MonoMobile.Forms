@@ -82,7 +82,9 @@ namespace MonoTouch.Dialog
 						elementToFocusOn = c as EntryElement;
 				}
 				if (elementToFocusOn != _element && elementToFocusOn!=null) {
-					var cell = tableview.CellAt(elementToFocusOn.GetIndexPath());
+                    var index = elementToFocusOn.GetIndexPath();
+					var cell = tableview.CellAt(index);
+                    tableview.ScrollToRow(index, UITableViewScrollPosition.Bottom, true);
 					cell.BecomeFirstResponder();
 				}
 				else 
