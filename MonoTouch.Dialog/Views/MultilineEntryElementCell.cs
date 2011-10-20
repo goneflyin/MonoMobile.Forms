@@ -16,6 +16,8 @@ namespace MonoTouch.Dialog
 			
 		protected UITextView _entry;
 		protected MultilineEntryElement _element;
+
+        private UITableViewStyle tableStyle;
 		
 		public MultilineEntryElementCell():base(UITableViewCellStyle.Default, KEY){
 			SelectionStyle = UITableViewCellSelectionStyle.None;
@@ -28,7 +30,9 @@ namespace MonoTouch.Dialog
 			if (_entry==null){
 				PrepareEntry(tableView);
 			}
-			
+
+            tableStyle = tableView.Style;
+
 			_entry.Text = element.Value ?? "";
 			_entry.SecureTextEntry = element.IsPassword;
 			_entry.AutocapitalizationType = element.AutoCapitalize;
@@ -52,16 +56,20 @@ namespace MonoTouch.Dialog
 		}
 			
 		protected virtual void PrepareEntry(UITableView tableview){
-			
-			var topspace = string.IsNullOrEmpty(_element.Caption)? 0 : 20;
-			_entry = new UITextView(new RectangleF(0,topspace,Frame.Width, Frame.Height-topspace));
+
+            var topspace = string.IsNullOrEmpty(_element.Caption)? 0 : 25;
+            var leftspace = 5;
+            var rightspace = tableStyle == UITableViewStyle.Grouped ? 40 : 0;
+            var bottomspace = 40;
+			_entry = new UITextView(new RectangleF(leftspace,topspace,Frame.Width-rightspace, Frame.Height-bottomspace));
 			
 			TextLabel.BackgroundColor = UIColor.Clear;
-			TextLabel.TextColor = UIColor.Gray;
+			TextLabel.TextColor = UIColor.Black;
 			TextLabel.Font = UIFont.SystemFontOfSize(14);
 			_entry.AutoresizingMask = UIViewAutoresizing.FlexibleWidth |
 				UIViewAutoresizing.FlexibleLeftMargin;
 			_entry.Editable = true;
+            _entry.BackgroundColor = UIColor.Clear;
 			_entry.Font = Font;
 			_entry.ScrollEnabled = false;
 			_entry.Bounces = false;
@@ -72,7 +80,7 @@ namespace MonoTouch.Dialog
 					_element.Value = _entry.Text;
 				
 				tableview.BeginUpdates();
-				_entry.Frame = new RectangleF(0,topspace,Frame.Width, Frame.Height-topspace);
+				_entry.Frame = new RectangleF(leftspace,topspace,Frame.Width-rightspace, Frame.Height-bottomspace);
 				tableview.EndUpdates();
 			};
 			_entry.Ended += delegate {
@@ -81,7 +89,7 @@ namespace MonoTouch.Dialog
 				
 				tableview.BeginUpdates();
 				tableview.EndUpdates();
-				_entry.Frame = new RectangleF(0,topspace,Frame.Width, Frame.Height-topspace);
+				_entry.Frame = new RectangleF(leftspace,topspace,Frame.Width-rightspace, Frame.Height-bottomspace);
 			};
 
 			_entry.Started += delegate {
@@ -107,8 +115,11 @@ namespace MonoTouch.Dialog
 			
 			TextLabel.Frame = new RectangleF(8,0,300,30);
 			
-			var topspace = string.IsNullOrEmpty(_element.Caption)? 0 : 20;
-			_entry.Frame = new RectangleF(0,topspace,Frame.Width, Frame.Height-topspace);
+			var topspace = string.IsNullOrEmpty(_element.Caption)? 0 : 25;
+            var leftspace = 5;
+            var rightspace = tableStyle == UITableViewStyle.Grouped ? 40 : 0;
+            var bottomspace = 40;
+			_entry.Frame = new RectangleF(leftspace,topspace,Frame.Width-rightspace, Frame.Height-bottomspace);
 		}
 		
 		public UIFont Font = UIFont.SystemFontOfSize(UIFont.LabelFontSize);
