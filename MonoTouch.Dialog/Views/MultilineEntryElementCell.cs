@@ -12,7 +12,7 @@ namespace MonoTouch.Dialog
 {
 	public class MultilineEntryElementCell: UITableViewCell {
 		
-		public static NSString KEY = new NSString ("EntryElement");
+		public static NSString KEY = new NSString ("MultiLineEntryElement");
 			
 		protected UITextView _entry;
 		protected MultilineEntryElement _element;
