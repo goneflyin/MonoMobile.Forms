@@ -34,6 +34,7 @@ namespace MonoTouch.Dialog
 			_entry.SecureTextEntry = element.IsPassword;
 			_entry.AutocapitalizationType = element.AutoCapitalize;
 			_entry.KeyboardType = element.KeyboardType;
+            _entry.Delegate = element.entryDelegate;
             _entry.ReturnKeyType = element.ReturnKeyType;
 			TextLabel.Text = element.Caption;
 		}
@@ -53,14 +54,15 @@ namespace MonoTouch.Dialog
 			SizeF size = _computeEntryPosition(tableview);
 			
 			_entry = new UITextField (new RectangleF (size.Width+10, (ContentView.Bounds.Height-size.Height)/2-1, 320-size.Width, size.Height));
-			
+
 			TextLabel.BackgroundColor = UIColor.Clear;
 			_entry.AutoresizingMask = UIViewAutoresizing.FlexibleWidth |
 				UIViewAutoresizing.FlexibleLeftMargin;
 			
 			_entry.ValueChanged += delegate {
 				if (_element != null)
-					_element.Value = _entry.Text;
+
+ 	_element.Value = _entry.Text;
 			};
 			_entry.Ended += delegate {
 				if (_element != null)
@@ -69,10 +71,11 @@ namespace MonoTouch.Dialog
 			
 			_entry.AddTarget((object o, EventArgs r)=>{
 				if (_element != null)
-					_element.Value = _entry.Text;
+  			_element.Value = _entry.Text;
 				}, UIControlEvent.EditingChanged);
-				
-			_entry.ShouldReturn += delegate {
+
+	
+					_entry.ShouldReturn += delegate {
 				Element elementToFocusOn = null;
 				
 				foreach (var c in ((Section)_element.Parent).Elements){
@@ -110,7 +113,8 @@ namespace MonoTouch.Dialog
                 }
                 _entry.ReturnKeyType = returnType;
 			};
-				
+
+			
 			ContentView.AddSubview (_entry);
 		}
 		
