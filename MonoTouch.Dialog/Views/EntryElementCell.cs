@@ -34,7 +34,12 @@ namespace MonoTouch.Dialog
 			_entry.SecureTextEntry = element.IsPassword;
 			_entry.AutocapitalizationType = element.AutoCapitalize;
 			_entry.KeyboardType = element.KeyboardType;
-            _entry.Delegate = element.entryDelegate;
+
+            if(element.entryDelegate != null)
+            {
+                _entry.Delegate = element.entryDelegate;
+            }
+
             _entry.ReturnKeyType = element.ReturnKeyType;
 			TextLabel.Text = element.Caption;
 		}
@@ -74,15 +79,17 @@ namespace MonoTouch.Dialog
   			_element.Value = _entry.Text;
 				}, UIControlEvent.EditingChanged);
 
-	
 					_entry.ShouldReturn += delegate {
 				Element elementToFocusOn = null;
-				
+
 				foreach (var c in ((Section)_element.Parent).Elements){
 					if (c == _element)
 						elementToFocusOn = c;
 					else if (elementToFocusOn != null && c is EntryElement)
+                    {
 						elementToFocusOn = c as EntryElement;
+                        break;
+                    }
 				}
 				if (elementToFocusOn != _element && elementToFocusOn!=null) {
                     var index = elementToFocusOn.GetIndexPath();
