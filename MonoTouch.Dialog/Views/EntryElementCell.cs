@@ -22,13 +22,13 @@ namespace MonoTouch.Dialog
 				
 		}
 		
-		public void Update(EntryElement element, UITableView tableView){
+		public virtual void Update(EntryElement element, UITableView tableView){
 			_element = element;
 			
 			if (_entry==null){
 				PrepareEntry(tableView);
 			}
-			
+
 			_entry.Text = element.Value ?? "";
 			_entry.Placeholder = element.Placeholder ?? "";
 			_entry.SecureTextEntry = element.IsPassword;
@@ -56,9 +56,7 @@ namespace MonoTouch.Dialog
 		}
 			
 		protected virtual void PrepareEntry(UITableView tableview){
-			SizeF size = _computeEntryPosition(tableview);
-			
-			_entry = new UITextField (new RectangleF (size.Width+10, (ContentView.Bounds.Height-size.Height)/2-1, 320-size.Width, size.Height));
+			_entry = new UITextField (_computerEntryRectangle(tableview));
 
 			TextLabel.BackgroundColor = UIColor.Clear;
 			_entry.AutoresizingMask = UIViewAutoresizing.FlexibleWidth |
@@ -67,7 +65,7 @@ namespace MonoTouch.Dialog
 			_entry.ValueChanged += delegate {
 				if (_element != null)
 
- 	_element.Value = _entry.Text;
+             	_element.Value = _entry.Text;
 			};
 			_entry.Ended += delegate {
 				if (_element != null)
@@ -124,6 +122,13 @@ namespace MonoTouch.Dialog
 			
 			ContentView.AddSubview (_entry);
 		}
+
+        protected RectangleF _computerEntryRectangle(UITableView tv)
+        {
+            SizeF size = _computeEntryPosition(tv);
+            return new RectangleF (size.Width+10, (ContentView.Bounds.Height-size.Height)/2-1, 320-size.Width, size.Height);
+        }
+        
 		
 		private SizeF _computeEntryPosition (UITableView tv)
 		{
