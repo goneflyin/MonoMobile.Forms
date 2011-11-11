@@ -32,6 +32,7 @@ namespace MonoTouch.Dialog
 		public UITextAutocapitalizationType AutoCapitalize = UITextAutocapitalizationType.Sentences;
         public UIReturnKeyType ReturnKeyType = UIReturnKeyType.Default;
         public UITextFieldDelegate entryDelegate = null;
+        public UITextAutocorrectionType TextAutoCorrectionType = UITextAutocorrectionType.Default;
 
         public event EventHandler Go;
 		
