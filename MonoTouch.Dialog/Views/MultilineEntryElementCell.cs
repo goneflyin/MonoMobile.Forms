@@ -38,10 +38,6 @@ namespace MonoTouch.Dialog
 			_entry.AutocapitalizationType = element.AutoCapitalize;
 			_entry.KeyboardType = element.KeyboardType;
 			TextLabel.Text = element.Caption;
-			
-			tableView.BeginUpdates();
-			tableView.EndUpdates();
-			
 		}
 			
 		public override bool BecomeFirstResponder ()
