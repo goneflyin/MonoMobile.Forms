@@ -84,8 +84,8 @@ namespace MonoTouch.Dialog
 					_element.Value = _entry.Text;
 				
 				tableview.BeginUpdates();
-				tableview.EndUpdates();
 				_entry.Frame = new RectangleF(leftspace,topspace,Frame.Width-rightspace, Frame.Height-bottomspace);
+                 tableview.EndUpdates();
 			};
 
 			_entry.Started += delegate {

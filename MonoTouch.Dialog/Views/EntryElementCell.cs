@@ -57,7 +57,7 @@ namespace MonoTouch.Dialog
 		}
 			
 		protected virtual void PrepareEntry(UITableView tableview){
-			_entry = new UITextField (_computerEntryRectangle(tableview));
+			_entry = new UITextField (_computeEntryRectangle(tableview));
 
 			TextLabel.BackgroundColor = UIColor.Clear;
 			_entry.AutoresizingMask = UIViewAutoresizing.FlexibleWidth |
@@ -124,7 +124,7 @@ namespace MonoTouch.Dialog
 			ContentView.AddSubview (_entry);
 		}
 
-        protected RectangleF _computerEntryRectangle(UITableView tv)
+        protected RectangleF _computeEntryRectangle(UITableView tv)
         {
             SizeF size = _computeEntryPosition(tv);
             return new RectangleF (size.Width+10, (ContentView.Bounds.Height-size.Height)/2-1, 320-size.Width, size.Height);
