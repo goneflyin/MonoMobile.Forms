@@ -1,5 +1,5 @@
 //
-// MultilineElement.cs
+// EntryElement.cs
 //
 // Author:
 //   Miguel de Icaza (miguel@gnome.org)
@@ -23,34 +23,63 @@ using MonoTouch.Foundation;
 using MonoTouch.ObjCRuntime;
 namespace MonoTouch.Dialog
 {
-	public class MultilineElement : StringElement, IElementSizing {
-		
-		public MultilineElement (string caption) : base (caption){}
-		public MultilineElement (string caption, string value) : base (caption, value){}
-		public MultilineElement (string caption, Action tapped) : base (caption, tapped){}
-		
-		public MultilineElement (string caption, string value, Action tapped) : base (caption, value, tapped)
-		{
-		}
-		
-		public override UITableViewCell GetCell (UITableView tv)
-		{
-			var cell = base.GetCell (tv);				
-			var tl = cell.TextLabel;
-			tl.LineBreakMode = UILineBreakMode.WordWrap;
-			tl.Font = this.Font;
-			tl.Lines = 0;
+ public class MultilineElement : StringElement, IElementSizing {
+     
+     
+     public MultilineElement (string caption , string value) : base (caption, value)
+     {
+         Value = value;
+     }
+     
+     public override string Summary ()
+     {
+         return Value;
+     }
+     
+     public override UITableViewCell GetCell (UITableView tv)
+     {
+         MultilineElementCell cell = (MultilineElementCell)tv.DequeueReusableCell(MultilineElementCell.KEY);
+         if (cell == null){
+             cell = new MultilineElementCell();
+         } 
+         
+         cell.Update(this, tv);
+             
+         return cell;
+     }
+     
+     public override bool Matches (string text)
+     {
+         return (Value != null ? Value.IndexOf (text, StringComparison.CurrentCultureIgnoreCase) != -1: false) || base.Matches (text);
+     }
+     
+     public override void Selected (DialogViewController dvc, UITableView tableView, NSIndexPath path)
+     {
+         ((MultilineElementCell)tableView.CellAt(path)).BecomeFirstResponder();
+     }
 
-			return cell;
-		}
-		
-		public virtual float GetHeight (UITableView tableView, NSIndexPath indexPath)
-		{
-			SizeF size = new SizeF (280, float.MaxValue);
-			if (string.IsNullOrEmpty(Caption)) return Font.LineHeight+10;
-			return tableView.StringSize (Caption, Font, size, UILineBreakMode.WordWrap).Height + 10;
-		}
-		
-		public UIFont Font = UIFont.SystemFontOfSize(15f);
-	}
+     
+     public float GetHeight (UITableView tableView, NSIndexPath indexPath)
+     {
+         return ComputeEntrySize(tableView).Height;
+     }
+     
+     
+     public SizeF ComputeEntrySize(UITableView tableView)
+     {
+         SizeF size = new SizeF (265, float.MaxValue);
+
+         var extraCaptionSpace = string.IsNullOrEmpty(Caption)? 0 : 20;
+         
+         if (string.IsNullOrEmpty(Value)) 
+             return new SizeF(265, Font.LineHeight+25+extraCaptionSpace);
+         
+         return new SizeF(265, tableView.StringSize (Value, Font, size, UILineBreakMode.WordWrap).Height + 35 + extraCaptionSpace);
+     }
+     
+     
+     public UIFont Font = UIFont.SystemFontOfSize(UIFont.LabelFontSize);
+     
+ }
+ 
 }

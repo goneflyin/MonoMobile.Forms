@@ -142,6 +142,7 @@
     <Compile Include="Views\BooleanElementCell.cs" />
     <Compile Include="Views\EntryElementCell.cs" />
     <Compile Include="Views\MultilineEntryElementCell.cs" />
+    <Compile Include="Views\MultilineElementCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
