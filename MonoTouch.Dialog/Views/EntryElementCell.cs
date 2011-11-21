@@ -35,6 +35,7 @@ namespace MonoTouch.Dialog
 			_entry.AutocapitalizationType = element.AutoCapitalize;
 			_entry.KeyboardType = element.KeyboardType;
             _entry.AutocorrectionType = element.TextAutoCorrectionType;
+            _entry.Enabled = element.EntryEnabled;
 
             if(element.entryDelegate != null)
             {
