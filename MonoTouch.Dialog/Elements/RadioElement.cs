@@ -37,6 +37,13 @@ namespace MonoTouch.Dialog
 		{
 			PopOnSelect = popOnSelect;
 		}
+
+
+        public RadioElement (string caption, string group, bool popOnSelect) : base (caption)
+        {
+            Group = group;
+            PopOnSelect = popOnSelect;
+        }
 				
 		public RadioElement (string caption) : base (caption)
 		{
